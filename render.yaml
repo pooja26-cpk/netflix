@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: netflix-server
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: node server/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        fromDatabase:
+          name: netflix-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: TMDB_API_KEY
+        sync: false
+      - key: TMDB_ACCESS_TOKEN
+        sync: false
+      - key: CLIENT_URL
+        value: https://your-client-url.onrender.com

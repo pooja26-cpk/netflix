@@ -169,5 +169,12 @@ app.get("/api/test/movies", (req, res) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📱 Client URL: ${process.env.CLIENT_URL || "https://netflix-clone-client-f49g.onrender.com"}`);
+  const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5174";
+  
+  console.log(`CLIENT_URL: ${CLIENT_URL}`);
+  
+  app.use(cors({
+    origin: CLIENT_URL,
+    credentials: true
+  }));
 });

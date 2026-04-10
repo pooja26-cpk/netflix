@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const BASE_URL = import.meta.env.VITE_API_URL || "https://netflix-server-production-4cdc.up.railway.app/api";
 
 const requests = {
   // Trending & Popular

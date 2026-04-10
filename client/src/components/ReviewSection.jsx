@@ -17,7 +17,7 @@ function ReviewSection({ movieId }) {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL || 'https://netflix-clone-server-r4rh.onrender.com/api'}/reviews/${movieId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL || 'https://netflix-server-production-4cdc.up.railway.app/api'}/reviews/${movieId}`);
         setReviews(response.data);
       } catch (error) {
         console.error("Error fetching reviews:", error);
@@ -40,7 +40,7 @@ function ReviewSection({ movieId }) {
     }
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL || 'https://netflix-clone-server-r4rh.onrender.com/api'}/reviews`,
+        `${import.meta.env.VITE_API_URL || 'https://netflix-server-production-4cdc.up.railway.app/api'}/reviews`,
         { movieId, rating, comment },
         { headers: { Authorization: `Bearer ${user.accessToken}` } }
       );

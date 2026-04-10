@@ -15,7 +15,7 @@ export default function Watch() {
     const fetchSimilarMovies = async () => {
       if (!movie?.id) return;
       try {
-        const baseUrl = import.meta.env.VITE_API_URL || "https://netflix-clone-server-r4rh.onrender.com/api";
+        const baseUrl = import.meta.env.VITE_API_URL || "https://netflix-server-production-4cdc.up.railway.app/api";
         const response = await axios.get(`${baseUrl}/movie/${movie.id}/similar`);
         if (response.data.results) {
           setSimilarMovies(response.data.results.slice(0, 10));

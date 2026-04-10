@@ -11,7 +11,7 @@ import { useAuth } from "../hooks/useAuth";
 import { useTheme } from "../hooks/useTheme";
 import { useToast } from "../hooks/useToast";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "https://netflix-clone-server-r4rh.onrender.com/api";
+const BASE_URL = import.meta.env.VITE_API_URL || "https://netflix-server-production-4cdc.up.railway.app/api";
 
 // Language options for filter
 const LANGUAGES = [

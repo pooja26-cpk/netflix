@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://netflix-server-production-4cdc.up.railway.com",
+        target: "https://netflix-server-production-4cdc.up.railway.app",
         changeOrigin: true,
         secure: false,
       },

@@ -14,14 +14,15 @@ import authenticate from "./verifyToken.js";
 const DEFAULT_CLIENT_URL = "https://netflix-bay-eight-16.vercel.app";
 const LOCAL_CLIENT_URLS = ["http://localhost:5173", "http://localhost:5174"];
 
-const normalizedClientUrl = (process.env.CLIENT_URL || DEFAULT_CLIENT_URL).replace(/\/+$/, "");
+const normalizeOrigin = (value = "") => value.trim().replace(/\/+$/, "");
+const normalizedClientUrl = normalizeOrigin(process.env.CLIENT_URL || DEFAULT_CLIENT_URL);
 const allowedOrigins = new Set(
   [
     normalizedClientUrl,
     ...LOCAL_CLIENT_URLS,
     ...(process.env.CLIENT_URLS || "")
       .split(",")
-      .map((origin) => origin.trim())
+      .map((origin) => normalizeOrigin(origin))
       .filter(Boolean),
   ].filter(Boolean)
 );
@@ -44,11 +45,22 @@ console.log("Environment variables loaded.");
 console.log(`MONGO_URI: ${process.env.MONGO_URI ? 'Loaded' : 'Missing'}`);
 console.log(`JWT_SECRET: ${process.env.JWT_SECRET ? 'Loaded' : 'Missing'}`);
 console.log(`TMDB_API_KEY: ${process.env.TMDB_API_KEY ? 'Loaded' : 'Missing'}`);
-console.log(`CLIENT_URL: ${process.env.CLIENT_URL || 'https://netflix-clone-client-f49g.onrender.com'}`);
+console.log(`CLIENT_URL: ${normalizedClientUrl || 'https://netflix-bay-eight-16.vercel.app'}`);
 console.log(`PORT: ${process.env.PORT || 5000}`);
 
 const app = express();
 console.log("Express app created.");
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.has(normalizeOrigin(origin))) {
+      return callback(null, true);
+    }
+
+    return callback(new Error(`CORS blocked for origin: ${origin}`));
+  },
+  credentials: true,
+};
 
 // Database Connection
 console.log("Attempting to connect to MongoDB...");
@@ -81,10 +93,8 @@ mongoose.connection.on('error', err => {
 });
 
 // Middleware
-app.use(cors({
-  origin: process.env.CLIENT_URL || "https://netflix-clone-client-f49g.onrender.com",
-  credentials: true
-}));
+app.use(cors(corsOptions));
+app.options(/.*/, cors(corsOptions));
 app.use(express.json({ limit: '10mb' })); // Increased limit for potential future use
 app.use(express.urlencoded({ extended: true }));
 
@@ -183,12 +193,5 @@ app.get("/api/test/movies", (req, res) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5174";
-  
-  console.log(`CLIENT_URL: ${CLIENT_URL}`);
-  
-  app.use(cors({
-    origin: CLIENT_URL,
-    credentials: true
-  }));
+  console.log(`CLIENT_URL: ${normalizedClientUrl || "http://localhost:5174"}`);
 });

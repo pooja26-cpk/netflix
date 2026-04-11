@@ -39,7 +39,8 @@ function MovieModal({ movie, onClose, onAddToList, onRemoveFromWatchlist }) {
 
       try {
         setLoading(true);
-        const base = apiUrl();
+        const base =
+          import.meta.env.VITE_API_URL || "https://netflix-clone-server-r4rh.onrender.com/api";
         
         // Fetch movie details and videos in parallel
         const [detailsResponse, videosResponse] = await Promise.all([
@@ -105,7 +106,7 @@ function MovieModal({ movie, onClose, onAddToList, onRemoveFromWatchlist }) {
     if (isUpdating) return;
     setIsUpdating(true);
 
-    const base = apiUrl();
+    const base = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
     const movieId = displayMovie.id || displayMovie.movieId;
 
     try {

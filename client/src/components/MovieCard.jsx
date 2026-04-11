@@ -37,7 +37,7 @@ const MovieCard = ({ movie, onMovieClick, isFavorite, showRemove = false, onRemo
 
     setIsRemoving(true);
     try {
-      const base = apiUrl();
+      const base = import.meta.env.VITE_API_URL || "https://netflix-clone-server-r4rh.onrender.com/api";
       const movieId = movie.movieId || movie.id;
       await axios.delete(`${base}/auth/watchlist/${movieId}`, {
         headers: { Authorization: `Bearer ${user.accessToken}` },

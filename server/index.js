@@ -44,7 +44,7 @@ console.log("Environment variables loaded.");
 console.log(`MONGO_URI: ${process.env.MONGO_URI ? 'Loaded' : 'Missing'}`);
 console.log(`JWT_SECRET: ${process.env.JWT_SECRET ? 'Loaded' : 'Missing'}`);
 console.log(`TMDB_API_KEY: ${process.env.TMDB_API_KEY ? 'Loaded' : 'Missing'}`);
-console.log(`CLIENT_URL: ${normalizedClientUrl}`);
+console.log(`CLIENT_URL: ${process.env.CLIENT_URL || 'https://netflix-clone-client-f49g.onrender.com'}`);
 console.log(`PORT: ${process.env.PORT || 5000}`);
 
 const app = express();
@@ -81,17 +81,10 @@ mongoose.connection.on('error', err => {
 });
 
 // Middleware
-const corsOptions = {
-  origin(origin, callback) {
-    if (!origin || allowedOrigins.has(origin)) {
-      return callback(null, true);
-    }
-    return callback(new Error(`CORS blocked for origin: ${origin}`));
-  },
-  credentials: true,
-};
-
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: process.env.CLIENT_URL || "https://netflix-clone-client-f49g.onrender.com",
+  credentials: true
+}));
 app.use(express.json({ limit: '10mb' })); // Increased limit for potential future use
 app.use(express.urlencoded({ extended: true }));
 
@@ -190,5 +183,12 @@ app.get("/api/test/movies", (req, res) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`Allowed client origins: ${Array.from(allowedOrigins).join(", ")}`);
+  const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5174";
+  
+  console.log(`CLIENT_URL: ${CLIENT_URL}`);
+  
+  app.use(cors({
+    origin: CLIENT_URL,
+    credentials: true
+  }));
 });

@@ -28,7 +28,7 @@ function FavoriteButton({ movie, isFavorite = false, onToggle = () => {} }) {
 
     try {
       setLoading(true);
-      const base = apiUrl();
+      const base = import.meta.env.VITE_API_URL || "https://netflix-clone-server-r4rh.onrender.com/api";
       // Ensure movieId is a number for consistent API calls
       const movieId = Number(movie.id || movie.movieId);
 

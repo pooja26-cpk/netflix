@@ -1,4 +1,6 @@
-const API_URL = `${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/auth`;
+import { apiUrl } from "./baseUrl";
+
+const API_URL = apiUrl("/auth");
 
 const getAuthHeaders = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -15,21 +17,21 @@ const isAuthenticated = () => {
   return !!user?.accessToken;
 };
 
-export const forgotPassword = async (email) => {
+export const forgotPassword = async ({ email }) => {
     const response = await fetch(`${API_URL}/forgot-password`, {
         method: "POST",
         headers: getAuthHeaders(),
-        body: JSON.stringify(email),
+        body: JSON.stringify({ email }),
     });
     if (!response.ok) throw new Error("Failed to send password reset email");
     return response.json();
 };
 
-export const resetPassword = async (token, password) => {
+export const resetPassword = async (token, { password }) => {
     const response = await fetch(`${API_URL}/reset-password/${token}`, {
         method: "POST",
         headers: getAuthHeaders(),
-        body: JSON.stringify(password),
+        body: JSON.stringify({ password }),
     });
     if (!response.ok) throw new Error("Failed to reset password");
     return response.json();

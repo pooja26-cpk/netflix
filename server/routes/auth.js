@@ -6,6 +6,8 @@ import User from "../models/User.js";
 import authenticate from "../verifyToken.js"; // Import the centralized authenticate middleware
 
 const router = express.Router();
+const DEFAULT_CLIENT_URL = "https://netflix-bay-eight-16.vercel.app";
+const CLIENT_URL = (process.env.CLIENT_URL || DEFAULT_CLIENT_URL).replace(/\/+$/, "");
 
 // Middleware to validate request body
 const validateSignup = (req, res, next) => {
@@ -136,7 +138,7 @@ router.post("/forgot-password", async (req, res) => {
       to: user.email,
       subject: "Your Password Reset Link",
       html: `<p>You requested a password reset. Click the link below to reset your password:</p>
-             <a href="${process.env.CLIENT_URL}/reset-password/${token}">Reset Password</a>
+             <a href="${CLIENT_URL}/reset-password/${token}">Reset Password</a>
              <p>This link will expire in 1 hour.</p>`,
     };
 

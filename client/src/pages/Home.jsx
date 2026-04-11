@@ -30,7 +30,7 @@ function Home() {
   useEffect(() => {
     const fetchGenres = async () => {
       try {
-        const base = import.meta.env.VITE_API_URL || "https://netflix-clone-server-r4rh.onrender.com/api";
+        const base = import.meta.env.VITE_API_URL || "https://netflix-server-production-4cdc.up.railway.app/api";
         const response = await axios.get(`${base}/genres`);
         setGenres(response.data.genres || []);
       } catch (error) {
@@ -44,7 +44,7 @@ function Home() {
   useEffect(() => {
     const fetchTrending = async () => {
       try {
-        const baseUrl = import.meta.env.VITE_API_URL || "https://netflix-clone-server-r4rh.onrender.com/api";
+        const baseUrl = import.meta.env.VITE_API_URL || "https://netflix-server-production-4cdc.up.railway.app/api";
         const response = await axios.get(`${baseUrl}/trending`);
         if (response.data.results && response.data.results.length > 0) {
           const movieId = response.data.results[0].id;
@@ -76,7 +76,7 @@ function Home() {
 
       // Fetch watch history
       try {
-        const base = import.meta.env.VITE_API_URL || "https://netflix-clone-server-r4rh.onrender.com/api";
+        const base = import.meta.env.VITE_API_URL || "https://netflix-server-production-4cdc.up.railway.app/api";
         const historyResponse = await axios.get(`${base}/auth/watch-history`, {
           headers: { Authorization: `Bearer ${user.accessToken}` },
         });
@@ -109,7 +109,7 @@ function Home() {
 
       // Fetch watchlist
       try {
-        const base = import.meta.env.VITE_API_URL || "https://netflix-clone-server-r4rh.onrender.com/api";
+        const base = import.meta.env.VITE_API_URL || "https://netflix-server-production-4cdc.up.railway.app/api";
         const response = await axios.get(`${base}/auth/watchlist`, {
           headers: { Authorization: `Bearer ${user.accessToken}` },
         });

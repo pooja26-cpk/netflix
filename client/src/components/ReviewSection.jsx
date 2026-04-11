@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useAuth } from '../hooks/useAuth';
 import { useTheme } from '../hooks/useTheme';
 import StarRating from './StarRating';
+import { apiUrl } from '../api/baseUrl';
 
 function ReviewSection({ movieId }) {
   const [reviews, setReviews] = useState([]);
@@ -17,7 +18,7 @@ function ReviewSection({ movieId }) {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL || 'https://netflix-clone-server-r4rh.onrender.com/api'}/reviews/${movieId}`);
+        const response = await axios.get(`${apiUrl()}/reviews/${movieId}`);
         setReviews(response.data);
       } catch (error) {
         console.error("Error fetching reviews:", error);
@@ -40,7 +41,7 @@ function ReviewSection({ movieId }) {
     }
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL || 'https://netflix-clone-server-r4rh.onrender.com/api'}/reviews`,
+        `${apiUrl()}/reviews`,
         { movieId, rating, comment },
         { headers: { Authorization: `Bearer ${user.accessToken}` } }
       );

@@ -22,7 +22,7 @@ function Genre() {
   useEffect(() => {
     const fetchGenres = async () => {
       try {
-        const base = import.meta.env.VITE_API_URL || "https://netflix-clone-server-r4rh.onrender.com/api";
+        const base = import.meta.env.VITE_API_URL || "https://netflix-server-production-4cdc.up.railway.app/api";
         const res = await axios.get(`${base}/genres`);
         setGenres(res.data.genres || []);
       } catch (err) {
@@ -39,7 +39,7 @@ function Genre() {
         setError(null);
 
         // Fetch movies for the genre
-        const base = import.meta.env.VITE_API_URL || "https://netflix-clone-server-r4rh.onrender.com/api";
+        const base = import.meta.env.VITE_API_URL || "https://netflix-server-production-4cdc.up.railway.app/api";
         const moviesUrl = `${base}/genre/${genreId}`;
         console.log(`Fetching movies for genre ${genreId} from: ${moviesUrl}`);
         

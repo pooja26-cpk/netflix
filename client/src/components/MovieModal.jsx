@@ -6,6 +6,7 @@ import FavoriteButton from "./FavoriteButton";
 import { useAuth } from "../hooks/useAuth";
 import { useTheme } from "../hooks/useTheme";
 import { useToast } from "../hooks/useToast";
+import { apiUrl } from "../api/baseUrl";
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
 
@@ -38,8 +39,7 @@ function MovieModal({ movie, onClose, onAddToList, onRemoveFromWatchlist }) {
 
       try {
         setLoading(true);
-        const base =
-          import.meta.env.VITE_API_URL || "https://netflix-clone-server-r4rh.onrender.com/api";
+        const base = apiUrl();
         
         // Fetch movie details and videos in parallel
         const [detailsResponse, videosResponse] = await Promise.all([
@@ -105,7 +105,7 @@ function MovieModal({ movie, onClose, onAddToList, onRemoveFromWatchlist }) {
     if (isUpdating) return;
     setIsUpdating(true);
 
-    const base = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+    const base = apiUrl();
     const movieId = displayMovie.id || displayMovie.movieId;
 
     try {

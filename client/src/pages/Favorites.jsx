@@ -22,7 +22,7 @@ const Favorites = () => {
         return;
       }
       try {
-        const base = import.meta.env.VITE_API_URL || "https://netflix-clone-server-r4rh.onrender.com/api";
+        const base = import.meta.env.VITE_API_URL || "https://netflix-server-production-4cdc.up.railway.app/api";
         const response = await axios.get(`${base}/auth/favorites`, {
           headers: { Authorization: `Bearer ${user.accessToken}` },
         });

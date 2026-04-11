@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useToast } from '../hooks/useToast';
+import { apiUrl } from '../api/baseUrl';
 
 function UserProfile() {
   const { user: authUser, logout } = useAuth();
@@ -18,7 +19,7 @@ function UserProfile() {
   const handleDeleteAccount = async () => {
     if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/delete-account`, {
+        const response = await fetch(apiUrl('/auth/delete-account'), {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${user?.accessToken}`,

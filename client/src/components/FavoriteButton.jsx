@@ -3,6 +3,7 @@ import axios from "axios";
 import { useAuth } from "../hooks/useAuth";
 import { useTheme } from "../hooks/useTheme";
 import { useToast } from "../hooks/useToast";
+import { apiUrl } from "../api/baseUrl";
 
 function FavoriteButton({ movie, isFavorite = false, onToggle = () => {} }) {
   const { user } = useAuth();
@@ -27,7 +28,7 @@ function FavoriteButton({ movie, isFavorite = false, onToggle = () => {} }) {
 
     try {
       setLoading(true);
-      const base = import.meta.env.VITE_API_URL || "https://netflix-clone-server-r4rh.onrender.com/api";
+      const base = apiUrl();
       // Ensure movieId is a number for consistent API calls
       const movieId = Number(movie.id || movie.movieId);
 
